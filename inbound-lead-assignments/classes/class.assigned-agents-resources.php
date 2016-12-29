@@ -247,7 +247,7 @@ if(!class_exists('Inbound_Assigned_Agents_Resources')){
          */
         public static function get_setting($key) {
             if (!defined('INBOUND_PRO_CURRENT_VERSION')) {
-                $setting = get_option($key, 0);
+                $setting = get_option('wpleads-extensions-' . $key, 0);
 
             } else {
                 $settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
