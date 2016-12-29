@@ -1,0 +1,79 @@
+.lead-agent-action-symbol:before{
+	content: "\f0c0";
+}
+
+ul#drop-up{
+    margin-top: -363px !important;
+}
+
+#inbound-agent-option-popup-container{
+	padding: 5px;
+	height: 350px; 
+	width: 500px; 
+	position: absolute; 
+	top: -351px; 
+	background: #f1f1f1; 
+	display:none;
+	border-top: 2px solid #c1c1c1;
+	border-left: 2px solid #c1c1c1;
+	border-right: 2px solid #c1c1c1;
+}
+
+#inbound-agent-option-popup-controls{
+	height: 275px;
+	overflow: auto;
+}
+
+.inbound-agent-bulk-action-header{
+	width: 100%;
+	font-size: 19px;
+	font-weight: bold;
+	text-align: center;
+	margin-top: 5px;
+	margin-bottom: 18px;
+}
+
+#inbound-agent-selector-container{
+	width: 49%;
+	display: inline-block;
+}
+
+#inbound-agent-lead-group-selector-container{
+	width: 49%;
+	display: inline-block;
+}
+
+
+#inbound-agent-selector-container-2{
+	width: 49%;
+	display: inline-block;
+}
+
+
+#inbound-agent-lead-group-selector-container-2{
+	width: 49%;
+	display: inline-block;
+}			
+
+#inbound-agent-selector-container-2,
+#inbound-agent-lead-group-selector-container-2{
+	display: none;
+}
+
+.used-in-add-leads, .used-in-remove-leads, .used-in-transfer-leads, .transfer-box-checked{
+	display: none;
+}
+
+#inbound-agents-submit-button-container{
+	width: 98%;
+	position: absolute;
+	bottom: 10px;
+}
+
+#assigned-agents-bulk-action-submit-button{
+	width: 100%;
+	padding: 12px;
+	font-size: 18px;
+
+}
+

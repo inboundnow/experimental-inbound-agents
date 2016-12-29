@@ -1,0 +1,154 @@
+
+/***inbound agent container styles***/
+
+#inbound-agents-interface-header{
+	font-weight: 600;
+	color: #23282d;
+    font-size: 1.3em;
+    margin: 1em 0;
+}
+
+#inbound-agent-profile-container{
+	display: flex;
+	height: 400px;
+	margin-top: 10px;
+}
+
+.inbound-agent-profile-display-container{
+	height: 100%;
+	margin-left: 5px;
+	margin-right: 5px;
+    padding: 10px;
+    border: 2px solid #c1c1c1;
+}
+
+/***agent profile styles***/
+
+#inbound-agent-profile{
+	width: 40%;
+	overflow: auto;
+}
+
+#inbound-agent-profile-header{
+
+}
+
+#inbound-agent-profile-lead-count{
+	font-weight: 600; 
+	font-size: 15px;
+}
+
+#inbound-agent-profile-groups-header{
+	margin-top: 10px;
+    font-weight: bold;
+    text-decoration: underline;
+    font-size: 15px;
+}
+
+/***lead action styles***/
+
+#agent-profile-lead-actions{
+	width: 60%;
+	display: flex;
+	flex-direction: row;
+}
+
+#agent-lead-action-container{
+	width: 40%;
+	position: relative;
+}
+
+#agent-lead-action-controls{
+	height: calc(100% - 60px);
+	padding-bottom: 10px;
+	overflow: auto;
+}
+
+#lead-action-header{
+	font-weight: bold;
+	text-align: center;
+	font-size: 18px;
+	margin-bottom: 10px;
+}
+
+#lead-select-display-container{
+	margin-bottom: 8px;
+}
+.agent-action-label{
+	
+}
+
+#agents-lead-action-selector-container{
+	margin-bottom: 10px;
+}
+
+#lead-action-inputs{
+	height: auto;
+}
+
+#agents-lead-group-selector-2-container,#to-agent-selector-container,#to-agent-group-selector-container{
+	width: 100%;
+}
+
+
+#agent-profile-lead-action-button{
+	display: none;
+	width: 90%;
+	margin-left: 5%;
+	padding: 10px;
+}
+
+/*** lead display styles***/
+
+#agent-lead-display-container{
+	position: relative;
+	width: 60%;
+	overflow: auto;
+}
+
+#lead-display-header{
+	font-weight: bold;
+	text-align: center;
+	font-size: 18px;
+	margin-bottom: 10px;
+}
+
+#agent-lead-display-table{
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.data-cell{
+	border-left: 2px solid #d7d7d7;
+	text-align: center;
+	max-width: 90px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+} 
+
+.email-cell{
+	border-right: 2px solid #d7d7d7;
+}
+
+/***selector and input-class styles***/
+
+#s2id_agents-lead-group-selector, #s2id_agents-lead-selector,
+#to-agent-selector, #to-agent-group-selector, #s2id_agents-lead-group-selector-2,
+#s2id_to-agent-selector,#s2id_to-agent-group-selector
+{
+ width: 98%;
+}
+
+.used-in-transfer-to-agent{
+	display: none;
+}
+
+.used-in-transfer-to-group{
+	display: none;
+	
+}
+
+.used-in-remove-leads{
+	display: none;
+}

@@ -1,0 +1,52 @@
+/*css for the admin side inbound forms*/
+
+/*labels*/
+#inbound-shortcodes-form-table tbody.parent-inbound_shortcode_inbound_assign_agent_enable tr.form-row td.label,
+#inbound-shortcodes-form-table tbody.parent-inbound_shortcode_inbound_assign_agent\[\] tr.form-row td.label,
+#inbound-shortcodes-form-table tbody.parent-inbound_shortcode_inbound_assign_to_agent_lead_group_enable tr.form-row td.label,
+#inbound-shortcodes-form-table tbody.parent-inbound_shortcode_inbound_assign_to_agent_lead_group\[\] tr.form-row td.label{
+	line-height: 16px;
+}
+
+/*lead group waiting spinner*/
+.group-spinner{
+	visibility: hidden;
+}
+
+
+/*input table rows*/
+.parent-inbound_shortcode_inbound_assign_agent\[\],
+.parent-inbound_shortcode_inbound_assign_to_agent_lead_group_enable,
+.parent-inbound_shortcode_inbound_assign_to_agent_lead_group\[\]{
+	display: none;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
