@@ -4,12 +4,12 @@ if(!class_exists('Inbound_Assigned_Agents_Resources')){
 	
 	class Inbound_Assigned_Agents_Resources{
 		
-		static $possible_agents;
-		static $assigned_agents;
-		static $assigned_agents_by_UID;
+		static $possible_agents = array();
+		static $assigned_agents = array();
+		static $assigned_agents_by_UID = array();
 		static $user_id_by_term_id;
-		static $agent_term_lead_groups;
-		static $lead_group_limits;
+		static $agent_term_lead_groups = array();
+		static $lead_group_limits = array();
 		static $ungrouped_leads;
 		
 		
@@ -107,7 +107,8 @@ if(!class_exists('Inbound_Assigned_Agents_Resources')){
 				
 				
 				/*if there are limits and there's a group stored in limits but not in lead groups, remove it*/
-				if(!empty($meta[0]) && !empty($deleted_groups = array_diff_key($meta[0], $meta2[0]))){
+				$deleted_groups = array_diff_key($meta[0], $meta2[0]);
+				if(!empty($meta[0]) && !empty($deleted_groups)){
 					foreach($deleted_groups as $deleted_group=>$deleted_value){
 						unset($meta[0][$deleted_group]);
 					}

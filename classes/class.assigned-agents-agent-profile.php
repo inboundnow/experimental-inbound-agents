@@ -12,8 +12,8 @@ if(!class_exists('Inbound_Assigned_Agents_Agent_Profile')){
 		public static function add_hooks(){
 			
 			/*user profile lead widget*/
-			add_filter( 'show_user_profile', array( __CLASS__, 'assigned_leads_widget' ), 10 );  //This hook only triggers when a user is viewing their _own_ profile page.
-            add_filter( 'edit_user_profile', array( __CLASS__, 'assigned_leads_widget' ), 10 );  //This hook only triggers when a user is viewing _another users_ profile page (not their own).
+			add_action( 'show_user_profile', array( __CLASS__, 'assigned_leads_widget' ), 10 );  //This hook only triggers when a user is viewing their _own_ profile page.
+            add_action( 'edit_user_profile', array( __CLASS__, 'assigned_leads_widget' ), 10 );  //This hook only triggers when a user is viewing _another users_ profile page (not their own).
 		}
 		
 		
@@ -29,7 +29,9 @@ if(!class_exists('Inbound_Assigned_Agents_Agent_Profile')){
 			$agent_term_id = get_user_meta($user->ID, 'inbound_assigned_lead_term', true);
 			
 			/*if has lead term*/
-			if($agent_term_id){		
+			if(!$agent_term_id) {
+				return $user;
+			}
 			
 			/*get the agent's lead groups*/
 			$agent_lead_groups = Inbound_Assigned_Agents_Resources::$agent_term_lead_groups[$agent_term_id];
@@ -556,7 +558,7 @@ if(!class_exists('Inbound_Assigned_Agents_Agent_Profile')){
 					}
 				});
 			</script>
-	<?php	}
+			<?php
 		}
 	}
 

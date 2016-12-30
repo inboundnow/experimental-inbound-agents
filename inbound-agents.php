@@ -1,10 +1,9 @@
 <?php
-//TODO: HUNT DOWN THE ADDED ACTIONS IN class.lead-management.php //core file
 
 /*
-Plugin Name: Inbound Extension - Inbound Assign Leads
+Plugin Name: Inbound Extension - Agents
 Plugin URI: http://www.inboundnow.com/
-Description: Enables the assigning of leads to marketing agents
+Description: Enables the assigning of leads to marketing agents for review.
 Version: 1.0.0
 Author: Inbound Now
 Contributors: Matt Bissett, Hudson Atwell
@@ -30,7 +29,7 @@ if(!class_exists('Inbound_Lead_Assignment')){
          */
         public static function define_constants() {
             define('INBOUNDNOW_LEAD_ASSIGNMENTS_CURRENT_VERSION', '1.0.0');
-            define('INBOUNDNOW_LEAD_ASSIGNMENTS_LABEL', __('Inbound Lead Assignments', 'inbound-pro'));
+            define('INBOUNDNOW_LEAD_ASSIGNMENTS_LABEL', __('Inbound Agents', 'inbound-pro'));
             define('INBOUNDNOW_LEAD_ASSIGNMENTS_SLUG', 'inbound-lead-assignments' );
             define('INBOUNDNOW_LEAD_ASSIGNMENTS_FILE', __FILE__);
             define('INBOUNDNOW_LEAD_ASSIGNMENTS_REMOTE_ITEM_NAME', 'inbound-lead-assignments');
@@ -97,7 +96,7 @@ if(!class_exists('Inbound_Lead_Assignment')){
                     array(
                         'id' => 'inbound_agents_header',
                         'type' => 'header',
-                        'default' => __('Inbound Lead Assignments', 'inbound-pro'),
+                        'default' => __('Inbound Agents', 'inbound-pro'),
                         'options' => null
                     ),
                     array(
@@ -186,7 +185,7 @@ if(!class_exists('Inbound_Lead_Assignment')){
            $global_settings[$tab_slug]['settings'][] =  array(
                'id' => 'inbound_agents_header',
                'type' => 'header',
-               'default' => __('Inbound Lead Assignments', 'inbound-pro'),
+               'default' => __('Inbound Agents', 'inbound-pro'),
                'options' => null
            );
            
