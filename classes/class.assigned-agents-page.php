@@ -64,7 +64,7 @@ if(!class_exists('Inbound_Assigned_Agents_Page')){
 				<div id="inbound-assign-agent-input-container">
 					<div id="inbound-assign-agent-row-1" style="min-height: 180px;">
 						<div id="inbound-assign-agent-actions">
-							<h3><?php _e('Select an agent action', 'inbound-pro'); ?></h3>
+							<h3><?php _e('Select an Agent action', 'inbound-pro'); ?></h3>
 							<input type="radio" name="agent-action" value="create-agent"/><?php _e('Create Agent', 'inbound-pro'); ?> <br />
 							<input type="radio" name="agent-action" value="edit-agent" />Edit Agent <br />
 							<input type="radio" name="agent-action" value="delete-agent" /><?php _e('Delete Agent', 'inbound-pro'); ?> <br />
@@ -809,11 +809,10 @@ if(!class_exists('Inbound_Assigned_Agents_Page')){
 										swal({
 											title: "<?php _e('Limits Updated!', 'inbound-pro'); ?>",
 											type: 'success',
+										}, function(){
+											window.location.reload(true);
 										});
 									}
-									
-									/*refresh the limit display*/
-									jQuery('#get-lead-group-limits-button').click();
 								},
 								error(MLHttpRequest, textStatus, errorThrown) {
 									swal({
@@ -1050,7 +1049,6 @@ if(!class_exists('Inbound_Assigned_Agents_Page')){
     public static function register_columns($cols) {
 
         $cols = array(
-            "cb" => "<input type=\"checkbox\" />",
             "agent_name" => __('Name', 'inbound-pro'),
             "profile-picture" => __('Gravatar', 'inbound-pro' ),
             "title" => __('Job Title', 'inbound-pro' ),
@@ -1125,12 +1123,13 @@ if(!class_exists('Inbound_Assigned_Agents_Page')){
 							echo '<p style="white-space: nowrap;">' . $key . ': 0</p>';
 						}
 					}
-					/*if there are ungrouped leads, list the number of them*/
-					if(!empty(Inbound_Assigned_Agents_Resources::$ungrouped_leads[$agent_id])){
-						echo '<p style="white-space: nowrap; font-weight: 600;">' . __('Ungrouped Leads: ', 'inbound-pro') . count(Inbound_Assigned_Agents_Resources::$ungrouped_leads[$agent_id]) . '</p>';
-					}
 				}else{
 					echo '<p>' . __('No groups found', 'inbound-pro') . '</p>';
+				}
+				
+				/*if there are ungrouped leads, list the number of them*/
+				if(!empty(Inbound_Assigned_Agents_Resources::$ungrouped_leads[$agent_id])){
+					echo '<p style="white-space: nowrap; font-weight: 600;">' . __('Ungrouped Leads: ', 'inbound-pro') . count(Inbound_Assigned_Agents_Resources::$ungrouped_leads[$agent_id]) . '</p>';
 				}
                 break;
         }

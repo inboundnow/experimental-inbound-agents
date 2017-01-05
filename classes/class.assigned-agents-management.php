@@ -842,10 +842,10 @@ if(!class_exists('Inbound_Assigned_Agents_Management')){
 	 */
 	public static function edit_agent_extra_data($agent_id, $field_data, $fields_to_delete){
 		
-			/*permission check*/
-			if(!current_user_can('editor') && !current_user_can('inbound_marketer')&& !current_user_can('administrator')){
-				return array('access_denied' =>__('You do not have the access level to preform this action.', 'inbound-pro'));
-			}
+		/*permission check*/
+		if(!current_user_can('editor') && !current_user_can('inbound_marketer')&& !current_user_can('administrator')){
+			return array('access_denied' =>__('You do not have the access level to preform this action.', 'inbound-pro'));
+		}
 		
 		/*if an array is passed, get the int value of the first index*/
 		if(is_array($agent_id)){ $agent_id = (int)$agent_id[0]; }
