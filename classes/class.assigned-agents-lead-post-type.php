@@ -35,29 +35,8 @@ if(!class_exists('Inbound_Assigned_Agents_Leads_Post_Type')){
 
 			<div id="taxonomy-inbound_assigned_lead" class="categorydiv">
 				<ul id="inbound_assigned_lead-tabs" class="category-tabs">
-					<li class="tabs"><a href="#inbound_assigned_lead-all">All Agents</a></li>
-					<li class="hide-if-no-js"><a href="#inbound_assigned_lead-pop">Most Used</a></li>
+					<li class="tabs"><a href="#inbound_assigned_lead-all"><?php _e('Agents and Lead Groups', 'inbound-pro'); ?></a></li>
 				</ul>
-
-				<div id="inbound_assigned_lead-pop" class="tabs-panel" style="display: none;">
-					<ul id="inbound_assigned_leadchecklist-pop" class="categorychecklist form-no-clear">
-						
-						<li id="popular-inbound_assigned_lead-189" class="popular-category">
-							<label class="selectit">
-								<input id="in-popular-inbound_assigned_lead-189" type="checkbox" checked="checked" value="189">
-								Matt
-							</label>
-						</li>
-
-						<li id="popular-inbound_assigned_lead-190" class="popular-category">
-							<label class="selectit">
-								<input id="in-popular-inbound_assigned_lead-190" type="checkbox" checked="checked" value="190">
-								Bob
-							</label>
-						</li>
-					</ul>
-				</div>
-
 				<div id="inbound_assigned_lead-all" class="tabs-panel">
 					<input type="hidden" name="tax_input[inbound_assigned_lead][]" value="0">			
 					<ul id="inbound_assigned_leadchecklist" data-wp-lists="list:inbound_assigned_lead" class="categorychecklist form-no-clear">
