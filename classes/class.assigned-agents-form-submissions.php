@@ -13,6 +13,7 @@ if(!class_exists('Inbound_Assigned_Agents_Inbound_Forms_Submissions')){
 			
 			/*after the lead has been created, update the concerned agents*/
 			add_filter('inbound_store_lead_post', array(__CLASS__, 'update_agents_with_new_submission'));
+
 			/*filter the data used for making the body of the email*/
 			add_filter('inbound-email-post-params', array(__CLASS__, 'filter_email_post_params'));
 		}
@@ -23,12 +24,12 @@ if(!class_exists('Inbound_Assigned_Agents_Inbound_Forms_Submissions')){
 
 			$form_values = get_post_meta($lead['form_id'], 'inbound_form_values');
 			parse_str($form_values[0], $form_values);
-			
+
 			if($form_values['inbound_shortcode_inbound_assign_agent_enable'] == 'on'){
-			
+
 				/*if rotating lead assignment has been selected in the extension settings*/
 				if($settings == 1){
-					
+
 					/*get the rotating assignment counter from the form meta*/
 					$rotation_counter = get_post_meta($lead['form_id'], 'inbound_assign_agents_rotation_counter', true);
 					
@@ -92,9 +93,8 @@ if(!class_exists('Inbound_Assigned_Agents_Inbound_Forms_Submissions')){
 					
 				}else{
 					/**if leads are to be assigned to all form agents:**/
-					
 					$agents_to_send_notifications = array();
-					
+
 					/*loop through the assigned agents*/
 					foreach($form_values['inbound_shortcode_inbound_assign_agent'] as $agent_id){
 						
@@ -139,11 +139,8 @@ if(!class_exists('Inbound_Assigned_Agents_Inbound_Forms_Submissions')){
 					if(!empty($agents_to_send_notifications)){
 						self::send_agent_notification($agents_to_send_notifications, $lead);
 					}
-				
 				}
-			
 			}
-
 		}
 		
 		/**
@@ -151,12 +148,12 @@ if(!class_exists('Inbound_Assigned_Agents_Inbound_Forms_Submissions')){
          */
         public static function send_agent_notification($agent_id, $lead) {
 			$to_address = array();
-	
+
 			/* exit if there's no agents */
 		    if (empty($agent_id)) {
 			    return;
 		    }
-			
+
 			/*get the form meta*/
 			$form_meta_data = get_post_meta($lead['form_id']);
 			
@@ -211,11 +208,11 @@ if(!class_exists('Inbound_Assigned_Agents_Inbound_Forms_Submissions')){
 			}
 
             if ($template = self::get_agent_notify_email_template()) {
-                add_filter('wp_mail_content_type', 'inbound_set_html_content_type');
-                function inbound_set_html_content_type() {
+                add_filter('wp_mail_content_type', 'inbound_agents_set_html_content_type');
+                function inbound_agents_set_html_content_type() {
                     return 'text/html';
                 }
-               
+
                 /* Look for Custom Subject Line ,	Fall Back on Default */
                 $subject = (isset($form_meta_data['inbound_notify_email_subject'])) ? $form_meta_data['inbound_notify_email_subject'] : $template['subject'];
                
