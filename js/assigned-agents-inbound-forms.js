@@ -44,26 +44,29 @@ jQuery(document).ready(function($){
 	jQuery('#inbound_shortcode_inbound_assign_agent\\[\\],#inbound_shortcode_inbound_assign_to_agent_lead_group\\[\\]').select2();
 
 	
-	/**if the saved settings are set to assign to an agent, display the agent selector and option to assign to groups **/
+	/**if the saved settings are set to assign to an agent, display the agent selector, 
+	 * the option to assign to groups, and the option to notify the assigned agents **/
 	if(formSettingList.assignToAgent == 'on'){
 		jQuery('.parent-inbound_shortcode_inbound_assign_agent\\[\\],\
-		.parent-inbound_shortcode_inbound_assign_to_agent_lead_group_enable').css({'display' : 'table-row-group'});
+		.parent-inbound_shortcode_inbound_assign_to_agent_lead_group_enable,\
+		.parent-inbound_shortcode_inbound_assign_notify_agents').css({'display' : 'table-row-group'});
 	}
 	/**if the saved settings are set to assign to an agent group, display the group selector**/
 	if(formSettingList.assignToGroups == 'on'){
 		jQuery('.parent-inbound_shortcode_inbound_assign_to_agent_lead_group\\[\\]').css({'display' : 'table-row-group'});		
 	}
 
-
 	/**the assign to agent checkbox listener**/
 	jQuery('#inbound_shortcode_inbound_assign_agent_enable').on('change', function(){
 		if(jQuery('#inbound_shortcode_inbound_assign_agent_enable').is(':checked')){
 			jQuery('.parent-inbound_shortcode_inbound_assign_agent\\[\\],\
-					.parent-inbound_shortcode_inbound_assign_to_agent_lead_group_enable').css({'display' : 'table-row-group'});
+					.parent-inbound_shortcode_inbound_assign_to_agent_lead_group_enable,\
+					.parent-inbound_shortcode_inbound_assign_notify_agents').css({'display' : 'table-row-group'});
 		}else{
 			jQuery('.parent-inbound_shortcode_inbound_assign_agent\\[\\],\
 					.parent-inbound_shortcode_inbound_assign_to_agent_lead_group_enable,\
-					.parent-inbound_shortcode_inbound_assign_to_agent_lead_group\\[\\]').css({'display' : 'none'});
+					.parent-inbound_shortcode_inbound_assign_to_agent_lead_group\\[\\],\
+					.parent-inbound_shortcode_inbound_assign_notify_agents').css({'display' : 'none'});
 			
 			//clear the agent selector
 			jQuery('#inbound_shortcode_inbound_assign_agent\\[\\]').select2('data', null);
@@ -71,8 +74,9 @@ jQuery(document).ready(function($){
 			//remove the status icon
 			jQuery('#agent-group-loading-status-icon').remove();
 
-			//set the group check to off
-			jQuery('#inbound_shortcode_inbound_assign_to_agent_lead_group_enable').prop('checked', false);
+			//set the group and notify checks to off
+			jQuery('#inbound_shortcode_inbound_assign_to_agent_lead_group_enable,\
+					#inbound_shortcode_inbound_assign_notify_agents').prop('checked', false);
 			
 			//empty the group selector
 			jQuery('#inbound_shortcode_inbound_assign_to_agent_lead_group\\[\\]').select2('data', null);
@@ -244,17 +248,46 @@ jQuery(document).ready(function($){
 		firstCall = false;
 	}
 	
-	/**reset the form's agent rotation counter on form save**/
+	/**
+	 * Updates form agent data:
+	 * Resets the agent rotation counter,
+	 * Saves whether agents should be notified,
+	 * Saves which groups the leads go to,
+	 * On form save.
+	**/
 	jQuery('a#inbound_save_form.button-primary').on('click', function(){
+		var noGroups = false;
+		/**check to see if groups have been selected. If they haven't, hide the selector and unset the groups checkbox*/
+		if(jQuery('#inbound_shortcode_inbound_assign_to_agent_lead_group_enable').is(':checked')){
+			if(!jQuery('#inbound_shortcode_inbound_assign_to_agent_lead_group\\[\\]').val()){
+				jQuery('#inbound_shortcode_inbound_assign_to_agent_lead_group_enable').prop('checked', false);
+				noGroups = true;
+				/**hide and clear the group selector**/
+				jQuery('.parent-inbound_shortcode_inbound_assign_to_agent_lead_group\\[\\]').css({'display' : 'none'});
+				//remove the status icon
+				jQuery('#agent-group-loading-status-icon').remove();
+				//clear the group selector
+				jQuery('#inbound_shortcode_inbound_assign_to_agent_lead_group\\[\\]').select2('data', null);
+				
+			}
+		}
+		
 		jQuery.ajax({
 			type : 'POST',
 			url : ajaxurl,
 			data : {
-				action : 'reset_form_rotating_counter',
+				action : 'save_form_agent_data',
 				post_id :  jQuery("#post_ID").val(),
+				notify_agents : (jQuery('#inbound_shortcode_inbound_assign_notify_agents').is(':checked')) ? 1 : 0,
+				agent_groups: jQuery('#inbound_shortcode_inbound_assign_to_agent_lead_group\\[\\]').val(),
+				no_groups : noGroups,
 				nonce : inbound_shortcodes.inbound_shortcode_nonce,
 				},
+			success : function(response){
+			//	console.log(JSON.parse(response));
+				},
 			});
+
 	});
 	
 	

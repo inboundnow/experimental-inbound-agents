@@ -1,5 +1,4 @@
 <?php
-
 if(!class_exists('Inbound_Assigned_Agents_Agent_Profile')){
 	
 	class Inbound_Assigned_Agents_Agent_Profile{
@@ -104,7 +103,7 @@ if(!class_exists('Inbound_Assigned_Agents_Agent_Profile')){
 							</div>
 							<select id="agents-lead-group-selector">
 								<option value="-1"><?php _e('Please select a lead group', 'inbound-pro');?></option>
-								<?php foreach($agent_lead_groups as $group=>$leads){ echo '<option value="'. $group .'">' . $group . '</option>'; }?>
+								<?php if(!empty($agent_lead_groups)){foreach($agent_lead_groups as $group=>$leads){ echo '<option value="'. $group .'">' . $group . '</option>'; }}?>
 								<?php if($lead_options != '') { ?>
 								<option value="Ungrouped Leads"><?php _e('Ungrouped Leads', 'inbound-pro');?></option>
 								<?php }; ?>
@@ -168,6 +167,10 @@ if(!class_exists('Inbound_Assigned_Agents_Agent_Profile')){
 					</div>
 				</div>
 			</div>
+			<?php
+				if(empty($agent_lead_groups)){$agent_lead_groups = array(__('No groups found', 'inbound-pro') => array(-1));}
+				if(empty($lead_options)){$lead_options = '<option value="-1">'. __('No leads found!', 'inbound-pro') .'</option>';}
+			?>
 			<script>
 				jQuery(document).ready(function(){
 					var groups = <?php echo json_encode($agent_lead_groups); ?>;

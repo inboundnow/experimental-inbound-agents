@@ -57,8 +57,8 @@ if(!class_exists('Inbound_Assigned_Agents_Resources')){
 					self::$possible_agents[$user->data->ID] = $user->data->display_name;
 				}else{
 					$term = get_term($term_id);
-					self::$assigned_agents[$term_id] = $term->name;
-					self::$assigned_agents_by_UID[$user->data->ID] = $term->name; 
+					@self::$assigned_agents[$term_id] = $term->name;
+					@self::$assigned_agents_by_UID[$user->data->ID] = $term->name; 
 					self::$user_id_by_term_id[$term_id] = $user->data->ID;
 				}
 			}
@@ -99,15 +99,15 @@ if(!class_exists('Inbound_Assigned_Agents_Resources')){
 				/*get the term meta*/
 				$meta = get_term_meta($key, 'inbound_agents_term_lead_limits');
 				$meta2 = get_term_meta($key, 'inbound_agents_lead_groups');
-				
+
 				/*if there are no lead groups for this agent, skip*/
-				if(empty($meta2)){
+				if(empty($meta2[0])){
 					continue;
 				}
-				
+
 				
 				/*if there are limits and there's a group stored in limits but not in lead groups, remove it*/
-				$deleted_groups = array_diff_key($meta[0], $meta2[0]);
+				$deleted_groups = @array_diff_key($meta[0], $meta2[0]);
 				if(!empty($meta[0]) && !empty($deleted_groups)){
 					foreach($deleted_groups as $deleted_group=>$deleted_value){
 						unset($meta[0][$deleted_group]);
@@ -196,45 +196,47 @@ if(!class_exists('Inbound_Assigned_Agents_Resources')){
 			$agent_lead_listing = array();
 			$agent_leads = array();
 			/*foreach agent*/
-			foreach(self::$agent_term_lead_groups as $agent_id => $lead_groups){
-				/**create an array of all leads in this agent's groups**/
-				foreach($lead_groups as $group_name=>$lead_array){
-					
-					/*if there's no leads in this group, skip it*/
-					if(empty($lead_array)){
-						continue;
+			foreach(self::$assigned_agents as $agent_id=>$display_name){
+					/**create an array of all leads in this agent's groups**/
+					if(!empty(self::$agent_term_lead_groups[$agent_id])){
+						foreach(self::$agent_term_lead_groups[$agent_id] as $group_name=>$lead_array){
+							
+							/*if there's no leads in this group, skip it*/
+							if(empty($lead_array)){
+								continue;
+							}
+							foreach($lead_array as $key => $lead){
+								$agent_leads[$lead] = true;
+							}
+						}
 					}
-					foreach($lead_array as $key => $lead){
-						$agent_leads[$lead] = true;
-					}
-				}
-				
-				/*get the leads for each agent, excluding the ones that are in groups*/
-				$ungrouped_leads = get_posts(array(
-					'post_type' => 'wp-lead',
-					'numberposts' => -1,
-					'exclude' => (!empty($agent_leads)) ? array_keys($agent_leads) : '',
-					'tax_query' => array(
-						array(
-						'taxonomy' => 'inbound_assigned_lead',
-						'field' => 'id',
-						'terms' => $agent_id,
+					/*get the leads for each agent, excluding the ones that are in groups*/
+					$ungrouped_leads = get_posts(array(
+						'post_type' => 'wp-lead',
+						'numberposts' => -1,
+						'exclude' => (!empty($agent_leads)) ? array_keys($agent_leads) : '',
+						'tax_query' => array(
+							array(
+							'taxonomy' => 'inbound_assigned_lead',
+							'field' => 'id',
+							'terms' => (int)$agent_id,
+							),
 						),
-					),
-				));
-				
-				/**create an array of all ungrouped lead ids**/
-				$ungrouped_lead_ids = array();
-				foreach($ungrouped_leads as $lead_object){
-					$ungrouped_lead_ids[] = $lead_object->ID;
-				}
-				
-				/*assign the ungrouped lead ids to an index of this agent's id*/
-				$agent_lead_listing[$agent_id] = $ungrouped_lead_ids;
-				
-				/*clear the lead arrays*/
-				unset($agent_leads);
-				unset($ungrouped_lead_ids);
+					));
+					
+					
+					/**create an array of all ungrouped lead ids**/
+					$ungrouped_lead_ids = array();
+					foreach($ungrouped_leads as $lead_object){
+						$ungrouped_lead_ids[] = $lead_object->ID;
+					}
+					
+					/*assign the ungrouped lead ids to an index of this agent's id*/
+					$agent_lead_listing[$agent_id] = $ungrouped_lead_ids;
+					
+					/*clear the lead arrays*/
+					unset($agent_leads);
+					unset($ungrouped_lead_ids);
 			}
 			
 			/*set $ungrouped_leads for the listing of the ungrouped leads*/

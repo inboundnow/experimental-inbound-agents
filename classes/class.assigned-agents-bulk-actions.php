@@ -170,9 +170,13 @@ if(!class_exists('Inbound_Assigned_Agents_Bulk_Actions')){
 					}
 					/*if the lead isn't in a group, in_group will be false and "N/A" will be outputted*/
 					if(!$in_group){ $html .= '<span title="' . $term->name . '">N/A</span>'; }
-					/*newline on each new agent*/
-					$html .= '<br>';
+				}else if(!empty(Inbound_Assigned_Agents_Resources::$ungrouped_leads[$term->term_id]) && in_array($post->ID, Inbound_Assigned_Agents_Resources::$ungrouped_leads[$term->term_id])){
+					/**if the lead is an unlisted lead, output N/A**/
+					$html .= '<span title="' . $term->name . '">' . $term->name .  ': </span>';
+					$html .= '<span title="' . $term->name . '">N/A</span>'; 
 				}
+				/*newline on each new agent*/
+				$html .= '<br>';
             }
 			
 			$html .= '</td>';
