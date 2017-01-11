@@ -44,10 +44,9 @@ if(!class_exists('Inbound_Assigned_Agents_Page')){
 					wp_enqueue_style('sweet-alert-css', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/SweetAlert/sweetalert.css', false , true );
 					
 					/* if stand alone plugin */
-					if (!defined('INBOUND_PRO_CURRENT_VERSION')) {
-						wp_enqueue_script('select2-js', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.min.js', false , true );
-						wp_enqueue_style('select2-css', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.css', false , true );
-					}
+					wp_enqueue_script('select2-js', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.min.js', false , true );
+					wp_enqueue_style('select2-css', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.css', false , true );
+
 				}
 
 			}
