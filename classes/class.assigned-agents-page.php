@@ -132,30 +132,31 @@ if(!class_exists('Inbound_Assigned_Agents_Page')){
 						if(agentAction == 'create-agent'){
 							jQuery('.agent-action-container').css({'display' : 'none'});
 							jQuery('#inbound-agent-avatar').html('');
-							jQuery('#inbound-agents-possible-agent-dropdown\\[\\]').val('-1').trigger('change' );
 							jQuery('#inbound-agents-create-agent-container').css({'display' : 'inline-block'});
+							jQuery('#inbound-agents-possible-agent-dropdown\\[\\]').val('-1').trigger('change' );
+							
 						}
 						//if it's to edit an agent, show the edit agent screen
 						else if(agentAction == 'edit-agent'){
 							jQuery('.agent-action-container').css({'display' : 'none'});
 							jQuery('#inbound-agent-avatar').html('');
-							jQuery('#inbound-agents-edit-assigned-agent-dropdown\\[\\]').val('-1').trigger('change' );
-							console.log(jQuery('#inbound-agents-assigned-agent-dropdown\\[\\]').val());
 							jQuery('#inbound-agents-edit-agent-container').css({'display' : 'inline-block'});
+							jQuery('#inbound-agents-edit-assigned-agent-dropdown\\[\\]').val('-1').trigger('change' );
+							//console.log(jQuery('#inbound-agents-assigned-agent-dropdown\\[\\]').val());
 
 						//if it's to delete an agent, show the list of existing agents
 						}else if(agentAction == 'delete-agent'){
 							jQuery('.agent-action-container').css({'display' : 'none'});
 							jQuery('#inbound-agent-avatar').html('');
-							jQuery('#inbound-agents-assigned-agent-dropdown\\[\\]').val('-1').trigger('change' );
 							jQuery('#inbound-agents-delete-agent-container').css({'display' : 'inline-block'});
+							jQuery('#inbound-agents-assigned-agent-dropdown\\[\\]').val('-1').trigger('change' );
 						}
 
 						});
 					
 					/**get the user avatar for the agent form**/
 					jQuery('.inbound-agent-dropdown').on('change', function(){
-						var selector = jQuery('.inbound-agent-dropdown:visible').select2('data');
+						var selector = jQuery('.inbound-agent-dropdown:visible').select2('data')[0];
 						/*if a user is selected*/
 						if(selector.id != 'null' && selector.id != '-1' && selector.id != undefined){
 							jQuery.ajax({
@@ -181,7 +182,7 @@ if(!class_exists('Inbound_Assigned_Agents_Page')){
 					
 					/**get the agent extra data**/
 					jQuery('#inbound-agents-get-agent-data-button').on('click', function(){
-						var selector = jQuery('.inbound-agent-dropdown:visible').select2('data');
+						var selector = jQuery('.inbound-agent-dropdown:visible').select2('data')[0];
 						
 						if(selector.id != -1 && selector.id != ''){
 							jQuery.ajax({
@@ -198,7 +199,7 @@ if(!class_exists('Inbound_Assigned_Agents_Page')){
 								},
 								success : function(response){
 									response = JSON.parse(response);
-							
+
 									jQuery('#inbound-agents-agent-data-interface').empty();
 									
 									var list = '';
@@ -260,9 +261,8 @@ if(!class_exists('Inbound_Assigned_Agents_Page')){
 					/**perform agent actions**/
 					jQuery('.inbound-assign-agent-form-submit-button').on('click', function(){
 						var user_id;
-						var selector = jQuery('.inbound-agent-dropdown:visible').select2('data');
+						var selector = jQuery('.inbound-agent-dropdown:visible').select2('data')[0];
 						user_id = [selector.id];
-						
 						
 						/*if agent extra data is being edited*/
 						if(jQuery('input[name=agent-action]:checked').val() == 'edit-agent'){
@@ -840,12 +840,11 @@ if(!class_exists('Inbound_Assigned_Agents_Page')){
 						
 						var data = {
 								execution   : jQuery('input[name=lead-group-action]:checked').val(),
-								agent_ids   : jQuery('#' + jQuery('.first-agent-selector:visible').attr('id').slice(5)).val(),  //remove the s2id_ to get the id of the underlying selector
-								agent_ids_2 : jQuery('.second-agent-selector').is(':visible') ? jQuery('#' + jQuery('.second-agent-selector:visible').attr('id').slice(5)).val() : '',
-								lead_groups  : jQuery('#' + jQuery('.lead-group-select:visible').attr('id').slice(5)).val(),
+								agent_ids   : jQuery('#' + jQuery('.first-agent-selector:visible').attr('id')).val(),
+								agent_ids_2 : jQuery('.second-agent-selector').is(':visible') ? jQuery('#' + jQuery('.second-agent-selector:visible').attr('id')).val() : '',
+								lead_groups : jQuery('#' + jQuery('.lead-group-select:visible').attr('id')).val(),
 								clone_leads : cloneLeads,
 						}
-
 						
 						if(data.agent_ids && data.lead_groups && data.agent_ids_2 != null){
 							swal({
@@ -921,7 +920,7 @@ if(!class_exists('Inbound_Assigned_Agents_Page')){
 						/*remove the status icon*/
 						jQuery('#agent-group-loading-status-icon').remove();
 						
-						if(jQuery('#' + jQuery('.first-agent-selector:visible').attr('id').slice(5)).val() != null){						
+						if(jQuery('#' + jQuery('.first-agent-selector:visible').attr('id')).val() != null){						
 							
 							/*create a new spinner*/
 							var target = jQuery('.lead-group-select.select2-container:visible');
@@ -938,7 +937,7 @@ if(!class_exists('Inbound_Assigned_Agents_Page')){
 								url : ajaxurl,
 								data : {
 									action : 'get_agent_term_lead_groups',
-									data : jQuery('#' + jQuery('.first-agent-selector:visible').attr('id').slice(5)).val(), 
+									data : jQuery('#' + jQuery('.first-agent-selector:visible').attr('id')).val(), 
 									get_groups_in_common : 1,
 									},
 								success : function(agentLeadGroups){
@@ -965,7 +964,7 @@ if(!class_exists('Inbound_Assigned_Agents_Page')){
 									}
 
 									//add the options to the selector
-									jQuery('#' + jQuery('.lead-group-select:visible').attr('id').slice(5)).append(options);
+									jQuery('#' + jQuery('.lead-group-select:visible').attr('id')).append(options);
 								},
 								error: function (MLHttpRequest, textStatus, errorThrown) {
 									alert("Ajax not enabled");
