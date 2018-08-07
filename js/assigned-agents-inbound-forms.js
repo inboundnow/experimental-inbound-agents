@@ -1,4 +1,4 @@
-jQuery(document).ready(function($){
+jQuery(window).load(function($){
 	
 	var wait,
 		agentList, 
@@ -122,6 +122,7 @@ jQuery(document).ready(function($){
 							
 						if(vals[0] == 'inbound_shortcode_inbound_assign_to_agent_lead_group_enable'){
 							formSettingList['assignToGroups'] = vals[1];
+                            console.log(vals);
 							}
 
 						if(vals[0] == 'inbound_shortcode_inbound_assign_agent%5B%5D'){
@@ -149,19 +150,19 @@ jQuery(document).ready(function($){
 
 				//set the agents as selected based on the settings
 				jQuery(formSettingSelectedAgents).each(function(index, value){
-					displayNames.push({'id' : value, 'text' : agentList[value]});
+					displayNames.push(value);
 				});
-				jQuery('#inbound_shortcode_inbound_assign_agent\\[\\]').select2('data', displayNames);
+				jQuery('#inbound_shortcode_inbound_assign_agent\\[\\]').val(displayNames);
+                jQuery('#inbound_shortcode_inbound_assign_agent\\[\\]').trigger('change');
 				
-				getLeadGroupList();
-				},
+
+            },
 		});
 
 	}
 
 	/**gets the groups that the selected agents have in common**/
 	function getLeadGroupList(){
-		
 		if((firstCall == true && formSettingList.assignToGroups == 'on') || firstCall == false){
 			/*if there is atleast one agent*/
 			if(jQuery('#inbound_shortcode_inbound_assign_agent\\[\\]').val()){
@@ -192,7 +193,7 @@ jQuery(document).ready(function($){
 								if(commonAgentLeadGroups != null){
 									jQuery('.parent-inbound_shortcode_inbound_assign_to_agent_lead_group\\[\\]').find('.select2-container').prepend('<div id="agent-group-loading-status-icon" style="position: absolute; left: calc(100% + 12px); top:5px;"><i id="agent-success-checkmark" style="color: green; font-size: 24px;" class="fa fa-check" aria-hidden="true"></i></div>');
 								}
-								
+
 								setupLeadGroupList();
 								},
 							error: function (MLHttpRequest, textStatus, errorThrown) {
@@ -210,7 +211,7 @@ jQuery(document).ready(function($){
 				/*otherwise, just empty the selector and remove the status icon*/
 				else{
 					jQuery('#inbound_shortcode_inbound_assign_to_agent_lead_group\\[\\]').select2('data', null);
-					jQuery('#inbound_shortcode_inbound_assign_to_agent_lead_group\\[\\]').empty();
+					jQuery('#inbound_shortcode_inbound_assign_to_agent_lead_group\\[\\]').empty().trigger('change');
 					jQuery('#agent-group-loading-status-icon').remove();
 				}
 		}else{
@@ -221,7 +222,7 @@ jQuery(document).ready(function($){
 	/**populates the lead group selector. Also sets the previously chosen lead groups to selected**/
 	function setupLeadGroupList(){
 		var displayLeadGroups = [];
-		var options = '';
+		var options = [];
 		
 		//empty the selector
 		jQuery('#inbound_shortcode_inbound_assign_to_agent_lead_group\\[\\]').empty();
@@ -230,8 +231,7 @@ jQuery(document).ready(function($){
 		//create the options out of the lead groups that the agents have in common
 		if(commonAgentLeadGroups != null){
 			for(var i = 0; i < commonAgentLeadGroups.length; i++){
-				console.log(commonAgentLeadGroups[i]);
-				options += '<option value="' + commonAgentLeadGroups[i] + '">' + commonAgentLeadGroups[i] + '</option>';
+                options.push(new Option(commonAgentLeadGroups[i], commonAgentLeadGroups[i], false, false));
 			}
 		}		
 		//add the options to the selector
@@ -240,11 +240,15 @@ jQuery(document).ready(function($){
 		//if the page has just loaded, set the lead groups for selected based on the settings
 		if(firstCall){
 			for(var j = 0; j < formSettingSelectedLeadGroups.length; j++){
-				displayLeadGroups.push({ 'id' : formSettingSelectedLeadGroups[j], 'text' : formSettingSelectedLeadGroups[j]});
+                displayLeadGroups.push(formSettingSelectedLeadGroups[j]);
 			}
-			jQuery('#inbound_shortcode_inbound_assign_to_agent_lead_group\\[\\]').select2('data', displayLeadGroups);
+            //select the saved groups
+            jQuery('#inbound_shortcode_inbound_assign_to_agent_lead_group\\[\\]').val(displayLeadGroups);
 		}
 		
+        //refresh the group dropdown
+        jQuery('#inbound_shortcode_inbound_assign_to_agent_lead_group\\[\\]').trigger('change');
+        
 		firstCall = false;
 	}
 	
@@ -257,9 +261,10 @@ jQuery(document).ready(function($){
 	**/
 	jQuery('a#inbound_save_form.button-primary').on('click', function(){
 		var noGroups = false;
+
 		/**check to see if groups have been selected. If they haven't, hide the selector and unset the groups checkbox*/
 		if(jQuery('#inbound_shortcode_inbound_assign_to_agent_lead_group_enable').is(':checked')){
-			if(!jQuery('#inbound_shortcode_inbound_assign_to_agent_lead_group\\[\\]').val()){
+            if(jQuery('#inbound_shortcode_inbound_assign_to_agent_lead_group\\[\\]').val() == null){
 				jQuery('#inbound_shortcode_inbound_assign_to_agent_lead_group_enable').prop('checked', false);
 				noGroups = true;
 				/**hide and clear the group selector**/

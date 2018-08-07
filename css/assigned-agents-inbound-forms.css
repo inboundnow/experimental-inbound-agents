@@ -24,8 +24,11 @@
 
 }
 
-
-
+/*multi selectors*/
+.parent-inbound_shortcode_inbound_assign_agent\[\] .select2-container,
+.parent-inbound_shortcode_inbound_assign_to_agent_lead_group\[\] .select2-container{
+    width: 50% !important;
+}
 
 
 

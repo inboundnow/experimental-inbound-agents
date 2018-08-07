@@ -24,6 +24,10 @@ ul#drop-up{
 	overflow: auto;
 }
 
+#inbound-agent-option-popup-container .select2-container{
+    width: 90% !important;
+}
+
 .inbound-agent-bulk-action-header{
 	width: 100%;
 	font-size: 19px;

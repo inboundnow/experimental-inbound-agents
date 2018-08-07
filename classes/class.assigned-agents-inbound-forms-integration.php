@@ -111,9 +111,11 @@ if(!class_exists('Inbound_Assigned_Agents_Inbound_Forms_Integration')){
 			
 				/**if no groups have been supplied, unset lead_group_enable**/
 				if(isset($_POST['no_groups']) && $_POST['no_groups'] == true){
-					$form_values = get_post_meta($_POST['post_id'], 'inbound_form_values');
-					$new_form_values = str_replace('inbound_shortcode_inbound_assign_to_agent_lead_group_enable=on&', '', $form_values[0]);
-					update_post_meta($_POST['post_id'], 'inbound_form_values', $new_form_values);
+//					$form_values = get_post_meta($_POST['post_id'], 'inbound_form_values');
+//					$new_form_values = str_replace('inbound_shortcode_inbound_assign_to_agent_lead_group_enable=on&', '', $form_values[0]);
+//					update_post_meta($_POST['post_id'], 'inbound_form_values', $new_form_values);
+// seems to be buggy, if not here, perhaps on the js side.
+// since it's more of a nice feature than a mandate, I'll comment it, and we can reenable it when needed.
 				}
 
 				/*set the agent rotation counter to zero on form save*/
@@ -133,6 +135,8 @@ if(!class_exists('Inbound_Assigned_Agents_Inbound_Forms_Integration')){
 					update_post_meta((int)$_POST['post_id'], 'inbound_agents_notify_agent_groups', '');
 				}
 			}
+            
+
 	//		echo json_encode($_POST);
 			die();
 		}

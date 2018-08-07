@@ -199,8 +199,8 @@ if(!class_exists('Inbound_Assigned_Agents_Management')){
 			$data['agent_ids'] = array_map(function($id){ return (int)$id; }, $data['agent_ids']);
 			$data['lead_group_names'] = sanitize_text_field($data['lead_group_names']);
 
-			/*replace double quotes with single ones*/
-			$data['lead_group_names'] = str_replace('"', '\'', $data['lead_group_names']);
+			/*replace quotes with hyphens*/
+			$data['lead_group_names'] = str_replace(array('"', '\''), '-', $data['lead_group_names']);
 
 			$output = '';
 

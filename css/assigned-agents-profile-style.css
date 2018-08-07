@@ -14,6 +14,10 @@
 	margin-top: 10px;
 }
 
+#inbound-agent-profile-container *{
+    box-sizing: border-box;
+}
+
 .inbound-agent-profile-display-container{
 	height: 100%;
 	margin-left: 5px;
@@ -56,6 +60,14 @@
 #agent-lead-action-container{
 	width: 40%;
 	position: relative;
+}
+
+#agent-lead-action-container .select2-container{
+    width: 80% !important;
+}
+
+#agent-lead-action-container .select2-selection{
+    width: 100% !important
 }
 
 #agent-lead-action-controls{
